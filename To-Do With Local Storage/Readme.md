@@ -3,7 +3,7 @@
 
 This is a simple to-do list web application that allows users to add, mark tasks as completed, and delete tasks. The tasks are saved in the browser's `localStorage` so they persist even after a page refresh.
 
-You can check out this project live [https://v-m-b.github.io/JavaScript-Projects/]
+You can check out this project live [https://v-m-b.github.io/JavaScript-Projects/](https://to-do-with-local-storage-2024.netlify.app/]
 
 ## Features
 - Add new tasks
