@@ -33,9 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let currentQuestionIndex = 0;
   let score = 0;
+  let answerSelected = false; // Prevent multiple selections
 
+  // Event listener for the start button
   startBtn.addEventListener("click", startQuiz);
 
+  // Event listener for the next button
   nextBtn.addEventListener("click", () => {
     currentQuestionIndex++;
     if (currentQuestionIndex < questions.length) {
@@ -45,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Event listener for the restart button
   restartBtn.addEventListener("click", () => {
     currentQuestionIndex = 0;
     score = 0;
@@ -52,39 +56,48 @@ document.addEventListener("DOMContentLoaded", () => {
     startQuiz();
   });
 
+  // Function to start the quiz
   function startQuiz() {
-    startBtn.classList.add("hidden"); // start btn removed after click of start btn
-    resultContainer.classList.add("hidden");
-    questionContainer.classList.remove("hidden");
+    startBtn.classList.add("hidden"); // Hide start button
+    resultContainer.classList.add("hidden"); // Hide result container
+    questionContainer.classList.remove("hidden"); // Show questions
     showQuestion();
   }
 
+  // Function to display a question
   function showQuestion() {
-    nextBtn.classList.add("hidden");
+    nextBtn.classList.add("hidden"); // Hide the next button initially
+    answerSelected = false; // Reset the flag for the new question
 
-    questionText.textContent = questions[currentQuestionIndex].question; //accessing the question
-    choicesList.innerHTML = ""; //clear previous choices
+    questionText.textContent = questions[currentQuestionIndex].question; // Set question text
+    choicesList.innerHTML = ""; // Clear previous choices
 
+    // Loop through choices and display them as list items
     questions[currentQuestionIndex].choices.forEach((choice) => {
       const li = document.createElement("li");
       li.textContent = choice;
-      li.addEventListener("click", () => selectAnswer(choice));
+      li.addEventListener("click", () => selectAnswer(choice)); // Handle choice selection
       choicesList.appendChild(li);
     });
   }
 
+  // Function to handle answer selection
   function selectAnswer(choice) {
-    const correctAnswer = questions[currentQuestionIndex].answer;
-    if (choice === correctAnswer) {
-      score++;
+    if (!answerSelected) { // Ensure answer can only be selected once
+      const correctAnswer = questions[currentQuestionIndex].answer;
+      if (choice === correctAnswer) {
+        score++; // Increment score only once per question
+      }
+      answerSelected = true; // Mark answer as selected
+      nextBtn.classList.remove("hidden"); // Show next button
     }
-    nextBtn.classList.remove("hidden");
   }
 
+  // Function to display the result at the end
   function showResult() {
-    questionContainer.classList.add("hidden");
-    resultContainer.classList.remove("hidden");
+    questionContainer.classList.add("hidden"); // Hide question container
+    resultContainer.classList.remove("hidden"); // Show result container
 
-    scoreDisplay.textContent = `${score} out of ${questions.length}`;
+    scoreDisplay.textContent = `${score} out of ${questions.length}`; // Display the score
   }
 });
